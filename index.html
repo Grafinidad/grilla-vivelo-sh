@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprobación de Contenidos | Vívelo Smart Health</title>
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #1c1c1c;
+            --tech-green: #00ff66;
+            --tech-green-dim: rgba(0, 255, 102, 0.15);
+            --text-light: #ffffff;
+            --text-gray: #d4d4d4;
+            --text-muted: #888888;
+            --border-color: #383838;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .brand-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+        .brand-name span {
+            color: var(--tech-green);
+        }
+        .instructor-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-gray);
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+        .client-title {
+            color: var(--tech-green);
+            margin-top: 25px;
+            font-weight: 600;
+        }
+        
+        .info-section {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--tech-green);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        .info-section h3 {
+            margin-top: 0;
+            color: var(--tech-green);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .info-section ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+        .info-section li {
+            margin-bottom: 12px;
+        }
+        .info-section li strong {
+            color: var(--text-light);
+        }
+
+        .timeline {
+            margin-top: 20px;
+            padding-left: 10px;
+            border-left: 2px solid var(--border-color);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .timeline-item.active::before {
+            background-color: var(--tech-green);
+            box-shadow: 0 0 10px var(--tech-green);
+        }
+        .timeline-item.active::after {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 17px;
+            width: 2px;
+            height: calc(100% + 5px);
+            background-color: var(--tech-green);
+        }
+        details {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        details:hover {
+            border-color: #555;
+        }
+        summary {
+            font-weight: bold;
+            outline: none;
+            color: var(--text-light);
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        .timeline-item.active summary {
+            color: var(--tech-green);
+        }
+        details p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-weight: 500;
+            padding-left: 15px;
+            border-left: 2px solid var(--tech-green-dim);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 102, 0.08);
+            border-color: #444;
+        }
+        .card-header {
+            background-color: #111111;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .date {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--tech-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .mini-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mini-fraction {
+            font-size: 11px;
+            color: var(--text-gray);
+            font-weight: bold;
+        }
+        .mini-bar-track {
+            width: 40px;
+            height: 6px;
+            background-color: #333;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .mini-bar-fill {
+            height: 100%;
+            background-color: var(--tech-green);
+            box-shadow: 0 0 5px var(--tech-green-dim);
+        }
+
+        .format {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .concept-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+            letter-spacing: 1px;
+            margin-top: 15px;
+        }
+        .concept-title:first-child {
+            margin-top: 0;
+        }
+        .clarification {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            margin-left: 5px;
+        }
+        .concept-text {
+            font-size: 14px;
+            color: var(--text-light);
+            background: #0d0d0d;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 2px solid var(--tech-green);
+        }
+        .copy-text {
+            font-size: 14px;
+            white-space: pre-wrap;
+            color: #eeeeee;
+            font-weight: 400;
+        }
+        
+        .card-footer {
+            padding: 15px 20px;
+            background-color: #0f0f0f;
+            border-top: 1px solid var(--border-color);
+        }
+        .btn-action {
+            background-color: var(--tech-green);
+            color: #000000;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-action:hover {
+            background-color: #00cc52;
+            box-shadow: 0 0 15px var(--tech-green-dim);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1 class="brand-name">Grafinidad<span>.</span></h1>
+        <h2 class="instructor-name">NAIROBIS CEDEÑO</h2>
+        <h3 class="client-title">VÍVELO SMART HEALTH - Propuesta de Contenidos sem 19 OCT al 25 OCT</h3>
+        <p style="color: var(--text-gray); font-size: 14px; font-weight: 500;">Plan Emprendedor | 12 Piezas | Cronograma de Cierre</p>
+    </div>
+
+    <!-- FICHAS DE CONTENIDO -->
+    <div class="container">
+        
+        <!-- Ficha 1 -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-top">
+                    <div class="date">LUNES 19 OCT (Publicado)</div>
+                    <div class="mini-bar-container">
+                        <span class="mini-fraction">2/4</span>
+                        <div class="mini-bar-track">
+                            <div class="mini-bar-fill" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="format">📱 Post Estático</div>
+            </div>
+            <div class="card-body">
+                <div class="concept-title">Concepto Visual <span class="clarification">(Descripción del diseño)</span></div>
+                <div class="concept-text">Fotografía estética, en blanco y negro o tonos sobrios, de un ejecutivo/a tocándose el cuello o la mandíbula con un gesto sutil de tensión, pero manteniendo la elegancia corporativa.</div>
+                
+                <div class="concept-title">Textos en Arte <span class="clarification">(Lo que irá escrito en la imagen/video)</span></div>
+                <div class="copy-text">Título principal: Tu cuerpo grita lo que tu agenda calla: 3 señales físicas de sobrecarga laboral ⚠️💼
+Lista:
+1. Bruxismo diurno: Aprietas la mandíbula involuntariamente mientras lees correos o estás en reuniones.
+2. Fatiga visual crónica: Sentir "arena" en los ojos al final del día no es normal, es tu sistema pidiendo una pausa.
+3. Niebla mental (Brain fog): Te cuesta recordar tareas simples o pierdes el hilo en medio de una conversación.</div>
+
+                <div class="concept-title">Caption <span class="clarification">(Texto al pie de la publicación)</span></div>
+                <div class="copy-text">Ignorar el estrés no hace que desaparezca; solo hace que tu cuerpo busque formas más fuertes de llamar tu atención. 🛑🧠 En el mundo corporativo, normalizamos el agotamiento físico como "parte del éxito", pero la verdadera inteligencia es la prevención. Escuchar a tu cuerpo a tiempo y tener un respaldo médico a tu alcance evita que un síntoma menor se convierta en una pausa obligatoria.
+Guarda este post y haz un escaneo rápido de tu cuerpo hoy. 📌 ¿Has sentido alguna de estas señales esta semana?
+#SaludLaboral #Prevencion #BienestarCorporativo #ViveloSmartHealth</div>
+            </div>
+            <div class="card-footer">
+                <a href="https://wa.me/584126311905?text=Hola%20Nairobis,%20revisé%20el%20Post%20Estático%20del%2019%20OCT.%20Mi%20feedback%20es:%20" target="_blank" class="btn-action">💬 Aprobar / Comentar</a>
+            </div>
+        </div>
+
+        <!-- Ficha 2 -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-top">
+                    <div class="date">MIÉRCOLES 21 OCT</div>
+                    <div class="mini-bar-container">
+                        <span class="mini-fraction">3/4</span>
+                        <div class="mini-bar-track">
+                            <div class="mini-bar-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="format">📱 Post Estático</div>
+            </div>
+            <div class="card-body">
+                <div class="concept-title">Concepto Visual <span class="clarification">(Descripción del diseño)</span></div>
+                <div class="concept-text">Arte tipográfico fuerte, muy limpio y corporativo, utilizando los colores principales de Vívelo. Puede incluir un mockup del celular mostrando la app o a un médico en videollamada para tangibilizar el servicio.</div>
+                
+                <div class="concept-title">Textos en Arte <span class="clarification">(Lo que irá escrito en la imagen/video)</span></div>
+                <div class="copy-text">Título principal: No somos un seguro tradicional. Somos tu ecosistema Smart Health. 🌐🛡️
+Subtítulos/Viñetas:
+- Telemedicina 24/7 sin salir de casa.
+- Historial médico centralizado.
+- Orientación médica inmediata a un clic.</div>
+
+                <div class="concept-title">Caption <span class="clarification">(Texto al pie de la publicación)</span></div>
+                <div class="copy-text">La diferencia entre preocuparte por un malestar imprevisto y tenerlo resuelto desde el primer síntoma está en la tecnología. 📲
+En Vívelo nos enfocamos en la prevención; te damos un sistema integral para que delegues la logística de tus consultas y centralices el cuidado de tu familia en una sola App, sin papeleos ni salas de espera.
+Tu tranquilidad preventiva es tu mejor inversión. Cotiza el plan ideal para tu grupo familiar en el link de nuestra bio. 👇
+#SaludInteligente #Inversion #PrevencionFamiliar #ViveloSmartHealth</div>
+            </div>
+            <div class="card-footer">
+                <a href="https://wa.me/584126311905?text=Hola%20Nairobis,%20revisé%20el%20Post%20Estático%20del%2021%20OCT.%20Mi%20feedback%20es:%20" target="_blank" class="btn-action">💬 Aprobar / Comentar</a>
+            </div>
+        </div>
+
+        <!-- Ficha 3 -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-top">
+                    <div class="date">JUEVES 22 OCT</div>
+                    <div class="mini-bar-container">
+                        <span class="mini-fraction">4/4</span>
+                        <div class="mini-bar-track">
+                            <div class="mini-bar-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="format">📱 Story</div>
+            </div>
+            <div class="card-body">
+                <div class="concept-title">Concepto Visual <span class="clarification">(Descripción del diseño)</span></div>
+                <div class="concept-text">Mockup de un celular moderno mostrando una conversación o el contacto oficial de WhatsApp de Vívelo. Diseño limpio orientado a la acción inmediata.</div>
+                
+                <div class="concept-title">Textos en Arte <span class="clarification">(Lo que irá escrito en la imagen/video)</span></div>
+                <div class="copy-text">Tu verdadera tranquilidad para este fin de semana empieza previniendo y blindando a los tuyos. 🛡️ Escríbenos y encontremos el plan que se ajusta a tu familia hoy.
+Interacción: [Sticker de Enlace directo a WhatsApp con el texto "Cotizar ahora 📲"]</div>
+
+                <div class="concept-title">Caption <span class="clarification">(Texto al pie de la publicación)</span></div>
+                <div class="copy-text">(No aplica para Story)</div>
+            </div>
+            <div class="card-footer">
+                <a href="https://wa.me/584126311905?text=Hola%20Nairobis,%20revisé%20la%20Story%20del%2022%20OCT.%20Mi%20feedback%20es:%20" target="_blank" class="btn-action">💬 Aprobar / Comentar</a>
+            </div>
+        </div>
+
+        <!-- Ficha 4 -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-top">
+                    <div class="date">VIERNES 23 OCT</div>
+                    <div class="mini-bar-container">
+                        <span class="mini-fraction">2/2</span>
+                        <div class="mini-bar-track">
+                            <div class="mini-bar-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="format">🎬 Reel</div>
+            </div>
+            <div class="card-body">
+                <div class="concept-title">Concepto Visual <span class="clarification">(Descripción del diseño)</span></div>
+                <div class="concept-text">Video tipo storytelling con toques de humor. Actuación de "Juan" revisando el aceite de un carro, tecleando concentrado en una laptop, y luego sentándose en su escritorio o sofá con cara de satisfacción total. Al sentarse, hace un gesto cómico de dolor inesperado agarrándose las costillas.</div>
+                
+                <div class="concept-title">Textos en Arte <span class="clarification">(Lo que irá escrito en la imagen/video)</span></div>
+                <div class="copy-text">(Voz en off muy grave, tipo locutor de cine):
+- (Aparece Juan en el carro) Voz en off: "Este es Juan. Juan le hace mantenimiento a su carro religiosamente cada 5.000 kilómetros." 🚗
+- (Juan en la laptop) Voz en off: "Juan actualiza el software de su laptop apenas sale la notificación." 💻
+- (Juan se sienta satisfecho, de pronto salta con un pinchazo de dolor) Voz en off: "Pero Juan lleva dos años ignorando esa punzadita en el costado." 🤦‍♂️
+- (Pantalla de cierre corporativa) Voz en off: "No seas como Juan. Tu cuerpo es tu empresa más importante. Empieza hoy tu cuidado preventivo con Vívelo Smart Health." 📲</div>
+
+                <div class="concept-title">Caption <span class="clarification">(Texto al pie de la publicación)</span></div>
+                <div class="copy-text">Invertimos presupuesto y tiempo en mantener nuestros vehículos y equipos operando al 100%, pero solemos dejar nuestra propia salud para el final de la lista. 📉
+La salud inteligente (Smart Health) no es actuar solo cuando ya no aguantas la "punzadita"; es construir un sistema de prevención que te permita operar a tu máxima capacidad todos los días y atender cualquier malestar a tiempo.
+Envíaselo a ese "Juan" que conoces, que cuida mucho su negocio y su carro, pero se olvida de su chequeo médico. 💙
+#Autocuidado #Prevencion #Liderazgo #ViveloSmartHealth</div>
+            </div>
+            <div class="card-footer">
+                <a href="https://wa.me/584126311905?text=Hola%20Nairobis,%20revisé%20el%20Reel%20del%2023%20OCT.%20Mi%20feedback%20es:%20" target="_blank" class="btn-action">💬 Aprobar / Comentar</a>
+            </div>
+        </div>
+
+        <!-- Ficha 5 -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-top">
+                    <div class="date">DOMINGO 25 OCT</div>
+                    <div class="mini-bar-container">
+                        <span class="mini-fraction">4/4</span>
+                        <div class="mini-bar-track">
+                            <div class="mini-bar-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="format">📱 Post Estático</div>
+            </div>
+            <div class="card-body">
+                <div class="concept-title">Concepto Visual <span class="clarification">(Descripción del diseño)</span></div>
+                <div class="concept-text">Un diagrama de flujo minimalista o una pantalla dividida (estilo Dark Mode / Light Mode corporativo) mostrando dos caminos distintos con íconos representativos.</div>
+                
+                <div class="concept-title">Textos en Arte <span class="clarification">(Lo que irá escrito en la imagen/video)</span></div>
+                <div class="copy-text">Título principal: Domingo 8:00 PM y tienes un malestar menor. ¿Cuál es tu ruta? 🛣️🤔
+Ruta Tradicional (Gris): Googlear síntomas ➔ Sugestionarse con lo peor ➔ Pasar mala noche ➔ Cancelar reuniones del lunes.
+Ruta Smart Health (Color Vívelo): Abrir la App ➔ Videollamada médica en 5 min ➔ Recibir orientación clara ➔ Dormir en paz y rendir el lunes.</div>
+
+                <div class="concept-title">Caption <span class="clarification">(Texto al pie de la publicación)</span></div>
+                <div class="copy-text">El fin de semana es para recargar energía, no para sumar preocupaciones. 🔋 Cuando aparece un malestar de rutina un domingo, la reacción automática suele ser el autodiagnóstico en internet, lo que genera más estrés y arruina la planificación de tu semana.
+Tener a un médico en tu bolsillo cambia las reglas del juego. Corta el ciclo de la incertidumbre, recibe orientación oportuna y resuelve desde tu sofá. ¿Tú de qué lado estás cuando te sientes mal un domingo? 👇
+#Telemedicina #Productividad #SaludDigital #ViveloSmartHealth</div>
+            </div>
+            <div class="card-footer">
+                <a href="https://wa.me/584126311905?text=Hola%20Nairobis,%20revisé%20el%20Post%20Estático%20del%2025%20OCT.%20Mi%20feedback%20es:%20" target="_blank" class="btn-action">💬 Aprobar / Comentar</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SECCIÓN PANORAMA GENERAL (TIMELINE) -->
+    <div class="info-section">
+        <h3>🗺️ Progreso Estratégico</h3>
+        <p style="color: var(--text-gray); font-size: 14px; margin-bottom: 20px; font-weight: 500;">Haz clic en cada semana para expandir los detalles de la estrategia.</p>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <details>
+                    <summary>SEMANA 1: Introducción (Completada) ✅</summary>
+                    <p><strong>Enfoque:</strong> Conectar con la audiencia y presentar la solución.<br><strong>Contenidos:</strong> 1 Post Estático (publicado en formato Carrusel), 1 Story, 1 Carrusel, 1 Reel publicados.</p>
+                </details>
+            </div>
+            <div class="timeline-item">
+                <details>
+                    <summary>SEMANA 2: Productividad y Telemedicina (Completada) ✅</summary>
+                    <p><strong>Enfoque:</strong> Demostrar que la salud inteligente ahorra el recurso más valioso del profesional: el tiempo.<br><strong>Contenidos:</strong> 1 Carrusel (2/2) y 1 Story (2/4) publicados.</p>
+                </details>
+            </div>
+            <div class="timeline-item active">
+                <details open>
+                    <summary>SEMANA 3: Cierre de Paquete y Conversión (📍 ¡Estamos aquí!)</summary>
+                    <p><strong>Enfoque:</strong> Consolidar la propuesta de valor preventiva, tangibilizar el ecosistema digital e impulsar la acción directa.<br><strong>Contenidos:</strong> 1 Story publicada por el Día Mundial contra el Cáncer de Mama (3/4) + 5 piezas de cierre en programación (3 Posts Estáticos, 1 Story, 1 Reel).</p>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN DE CONSIDERACIONES (AL FINAL) -->
+    <div class="info-section">
+        <h3>💼 Observaciones</h3>
+        <ul>
+            <li><strong>Ajuste táctico de fechas (Semana 2 a Semana 3):</strong> El Post Estático pautado inicialmente para el viernes 16 de octubre ("Tu cuerpo grita lo que tu agenda calla") fue reprogramado y publicado hoy, lunes 19 de octubre (contabilizado como Post 2/4), debido a los tiempos de revisión y aprobación.</li>
+            <li><strong>Acción de Newsjacking (19 de Octubre):</strong> Aprovechando la relevancia del Día Mundial contra el Cáncer de Mama, se diseñó y publicó hoy una Story especial conmemorativa. Esta pieza ya se encuentra sumada al inventario ejecutado del paquete (Story 3/4).</li>
+            <li><strong>Balance de cierre del Plan Emprendedor (12 piezas):</strong> Considerando el ajuste de la Semana 1 (donde el Post 1/4 se ejecutó como carrusel) y las publicaciones realizadas hasta hoy, los cupos de Carruseles (2/2) ya están completados. Con las 5 piezas presentadas en este cronograma del 19 al 25 de octubre, cumplimos el 100% de los entregables del paquete (4/4 Posts Estáticos, 4/4 Stories, 2/2 Carruseles y 2/2 Reels).</li>
+        </ul>
+    </div>
+
+</body>
+</html>
